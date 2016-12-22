@@ -1,6 +1,6 @@
 [submodule "tudat"]
 	path = tudat
-	url = https://github.com/Tudat/tudat.git
+	url = ../tudat.git
 [submodule "tudatExampleApplications"]
 	path = tudatExampleApplications
 	url = https://github.com/Tudat/tudatExampleApplications.git

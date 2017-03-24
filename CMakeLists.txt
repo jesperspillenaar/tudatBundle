@@ -16,19 +16,20 @@ project( TudatBundle )
 # Package options
 option(USE_CSPICE   "Build CSPICE libary, tudat with SPICE support and example applications." ON)
 option(USE_JSONCPP  "Build JSONCPP library and example applications." OFF)
-option(USE_NRLMSISE "Build NRLMISE-00 library and tudat with NRLMSISE support." ON)
+option(USE_NRLMSISE00 "Build NRLMISE-00 library and tudat with NRLMSISE support." ON)
 option(USE_PAGMO    "Build PaGMO library." OFF)
 option(USE_PYGMO    "Build PaGMO library with Python bindings." OFF)
 
 # Set root-directory for code to current source directory.
 set(PROJECTROOT "${CMAKE_CURRENT_SOURCE_DIR}/")
-
+message(STATUS ${PROJECT_SOURCE_DIR})
 enable_testing( )
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/CMake/")
+# Set the flag to force to use include_directories macro on Apple too
+option(APPLE_INCLUDE_FORCE "Force include_directories on Apple too." ON)
 
-message(STATUS "CMake modules: ${CMAKE_MODULE_PATH}")
-message(STATUS ${PROJECT_SOURCE_DIR})
+# Let CMake find our custom cmake modules/scritpts
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/CMake")
 
 #
 # Boost
@@ -79,7 +80,7 @@ endif()
 # NRLMSISE
 #
 # Add the NRLMSISE project and build
-if(USE_NRLMSISE)
+if(USE_NRLMSISE00)
   set(NRLMSISE00_WITH_TESTS OFF CACHE BOOL "Building of NRLMSISE00 tests.")
   add_subdirectory( "${PROJECTROOT}/nrlmsise-00/")
 endif()

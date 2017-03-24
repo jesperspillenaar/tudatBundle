@@ -16,19 +16,20 @@ project( TudatBundle )
 # Package options
 option(USE_CSPICE   "Build CSPICE libary, tudat with SPICE support and example applications." ON)
 option(USE_JSONCPP  "Build JSONCPP library and example applications." OFF)
-option(USE_NRLMSISE "Build NRLMISE-00 library and tudat with NRLMSISE support." ON)
+option(USE_NRLMSISE00 "Build NRLMISE-00 library and tudat with NRLMSISE support." ON)
 option(USE_PAGMO    "Build PaGMO library." OFF)
 option(USE_PYGMO    "Build PaGMO library with Python bindings." OFF)
 
 # Set root-directory for code to current source directory.
 set(PROJECTROOT "${CMAKE_CURRENT_SOURCE_DIR}/")
-
+message(STATUS ${PROJECT_SOURCE_DIR})
 enable_testing( )
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/CMake/")
+# Set the flag to force to use include_directories macro on Apple too
+option(APPLE_INCLUDE_FORCE "Force include_directories on Apple too." ON)
 
-message(STATUS "CMake modules: ${CMAKE_MODULE_PATH}")
-message(STATUS ${PROJECT_SOURCE_DIR})
+# Let CMake find our custom cmake modules/scritpts
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/CMake")
 
 #
 # Boost
@@ -44,12 +45,12 @@ if(USE_PYGMO)
   list(APPEND BoostComponents python python3)
 endif()
 # Pick a boost version
-# set(BoostVersion 1.60.0)
-# set(BoostSHA1 7f56ab507d3258610391b47fef6b11635861175a)
+set(BoostVersion 1.60.0)
+set(BoostSHA1 7f56ab507d3258610391b47fef6b11635861175a)
 # set(BoostVersion 1.57.0)
 # set(BoostSHA1 e151557ae47afd1b43dc3fac46f8b04a8fe51c12)
-set(BoostVersion 1.53.0)
-set(BoostSHA1 e6dd1b62ceed0a51add3dda6f3fc3ce0f636a7f3)
+# set(BoostVersion 1.53.0)
+# set(BoostSHA1 e6dd1b62ceed0a51add3dda6f3fc3ce0f636a7f3)
 # set(BoostVersion 1.48.0)
 # set(BoostSHA1 27aced5086e96c6f7b2b684bda2bd515e115da35)
 # Build boost
@@ -79,7 +80,7 @@ endif()
 # NRLMSISE
 #
 # Add the NRLMSISE project and build
-if(USE_NRLMSISE)
+if(USE_NRLMSISE00)
   set(NRLMSISE00_WITH_TESTS OFF CACHE BOOL "Building of NRLMSISE00 tests.")
   add_subdirectory( "${PROJECTROOT}/nrlmsise-00/")
 endif()
@@ -117,3 +118,7 @@ if(USE_PAGMO)
   add_subdirectory( "${PROJECTROOT}/tudatExampleApplications/libraryExamples/PaGMOEx/")
 endif()
 add_subdirectory( "${PROJECTROOT}/tudatExampleApplications/templateApplication/TemplateApplication")
+#add_subdirectory( "${PROJECTROOT}/tudatApplications/thesisApplications/thesisApplications")
+add_subdirectory( "${PROJECTROOT}/tudatApplications/thesisApplications/testApplications")
+add_subdirectory( "${PROJECTROOT}/tudatApplications/thesisApplications/ascentSimulationVerification")
+add_subdirectory( "${PROJECTROOT}/tudatApplications/thesisApplications/ascentSimulationForOptimization")
